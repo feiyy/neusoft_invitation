@@ -48,7 +48,7 @@ public class OAuthServlet extends HttpServlet {
         if(code==null)
         {
         	System.out.println("redirect.........");
-        	response.sendRedirect("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx1481522e253290f2&redirect_uri=http%3A%2F%2Fwww.zyrc.tech%2Fneusoft%2FOAuthServlet&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect");
+        	response.sendRedirect("https://open.weixin.qq.com/connect/oauth2/authorize?appid=&redirect_uri=http%3A%2F%2Fwww.zyrc.tech%2Fneusoft%2FOAuthServlet&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect");
         }
         else
         {
