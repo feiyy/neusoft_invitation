@@ -38,12 +38,12 @@ public class OAuthServlet extends HttpServlet {
 			throws ServletException, IOException {
 		
 		
-		 System.out.println("ÇëÇóÂ·¾¶"+request.getRequestURI());
+		 System.out.println("è¯·æ±‚è·¯å¾„"+request.getRequestURI());
 		
 		request.setCharacterEncoding("utf-8");
         response.setCharacterEncoding("utf-8");
 
-        // ÓÃ»§Í¬ÒâÊÚÈ¨ºó£¬ÄÜ»ñÈ¡µ½code
+        // ç”¨æˆ·åŒæ„æˆæƒåï¼Œèƒ½è·å–åˆ°code
         String code = request.getParameter("code");
         if(code==null)
         {
@@ -55,39 +55,39 @@ public class OAuthServlet extends HttpServlet {
         	System.out.println("codecodecodecodecodecode:"+code);
 
             SNSUserInfo snsUserInfo = new SNSUserInfo();
-            // ÓÃ»§Í¬ÒâÊÚÈ¨
+            // ç”¨æˆ·åŒæ„æˆæƒ
             if (!"authdeny".equals(code)) {
             	
-                // »ñÈ¡ÍøÒ³ÊÚÈ¨access_token          
-            	WeixinOauth2Token weixinOauth2Token = AdvancedUtil.getOauth2AccessToken("wx1481522e253290f2", "21831a52ccf51f2181cc4562793b9867", code);
+                // è·å–ç½‘é¡µæˆæƒaccess_token          
+            	WeixinOauth2Token weixinOauth2Token = AdvancedUtil.getOauth2AccessToken("", "", code);
             	
-                System.out.println("codeÒÑ¾­·¢ËÍÁË£¡£¡£¡");
+                System.out.println("codeå·²ç»å‘é€äº†ï¼ï¼ï¼");
                 
-                // ÍøÒ³ÊÚÈ¨½Ó¿Ú·ÃÎÊÆ¾Ö¤
+                // ç½‘é¡µæˆæƒæ¥å£è®¿é—®å‡­è¯
                 String accessToken = weixinOauth2Token.getAccessToken();
                 
-                // ÓÃ»§±êÊ¶
+                // ç”¨æˆ·æ ‡è¯†
                 String openId = weixinOauth2Token.getOpenId();
 
-                // »ñÈ¡ÓÃ»§ĞÅÏ¢
+                // è·å–ç”¨æˆ·ä¿¡æ¯
                 snsUserInfo = AdvancedUtil.getSNSUserInfo(accessToken, openId);
      
-                // ÉèÖÃÒª´«µİµÄ²ÎÊı
+                // è®¾ç½®è¦ä¼ é€’çš„å‚æ•°
                 request.getSession().setAttribute("snsUserInfo", snsUserInfo);
                 
-                System.out.println("µÃµ½ÓÃ»§ĞÅÏ¢£¬"+openId+"..."+snsUserInfo.getHeadImgUrl());
+                System.out.println("å¾—åˆ°ç”¨æˆ·ä¿¡æ¯ï¼Œ"+openId+"..."+snsUserInfo.getHeadImgUrl());
               
             }
             
-            //ÅäÖÃÎ¢ĞÅ·ÖÏí
-          //1. µÃµ½access token
+            //é…ç½®å¾®ä¿¡åˆ†äº«
+          //1. å¾—åˆ°access token
       		String url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET";
-      		url = url.replace("APPID", "wx1481522e253290f2");
-      		url = url.replace("APPSECRET", "21831a52ccf51f2181cc4562793b9867");		
+      		url = url.replace("APPID", "");
+      		url = url.replace("APPSECRET", "");		
       		JSONObject obj = CommonUtil.httpsRequest(url, "GET",null);
       		String access_token = obj.getString("access_token");
       		
-      		//2. µÃµ½jsapi_ticket
+      		//2. å¾—åˆ°jsapi_ticket
       		String url2 = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=ACCESS_TOKEN&type=jsapi";
       		url2 = url2.replace("ACCESS_TOKEN", access_token);
       		JSONObject obj2 = CommonUtil.httpsRequest(url2, "GET",null);
@@ -95,7 +95,7 @@ public class OAuthServlet extends HttpServlet {
       		
       		System.out.println("jsapi_ticket:"+jsapi_ticket);
       		
-      		//3. µÃµ½wx.configËùĞèÒªµÄ²ÎÊı		
+      		//3. å¾—åˆ°wx.configæ‰€éœ€è¦çš„å‚æ•°		
       		String requesturl = "http://www.zyrc.tech/neusoft/OAuthServlet?code="+code+"&state=STATE";
       		System.out.println("requesturlrequesturl:"+requesturl);
       		Map<String, String> map = SignUtils.sign(jsapi_ticket, requesturl);
